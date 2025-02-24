@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.22)
 
 # Version is needed by JUCE.
-project(AudioPlugin VERSION 0.1.0)
+project(Phasermatic VERSION 0.1.0)
 
 # Adding a directory with the library/application name as a subfolder of the
 # include folder is a good practice. It helps avoid name clashes later on.
-set(INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/YourPluginName")
+set(INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include/Phasermatic")
 
 # Adds a plugin target (that's basically what the Projucer does).
 juce_add_plugin(${PROJECT_NAME}
@@ -16,7 +16,7 @@ juce_add_plugin(${PROJECT_NAME}
     PLUGIN_MANUFACTURER_CODE STLK # change this
     PLUGIN_CODE EXPL # change this
     FORMATS Standalone VST3  AU # may change this
-    PRODUCT_NAME "YourPluginName" # change this
+    PRODUCT_NAME "Phasermatic" # change this
 )
 
 # Sets the source files of the plugin project.

@@ -1,5 +1,5 @@
-#include "YourPluginName/PluginProcessor.h"
-#include "YourPluginName/PluginEditor.h"
+#include "Phasermatic/PluginProcessor.h"
+#include "Phasermatic/PluginEditor.h"
 
 namespace audio_plugin {
 AudioPluginAudioProcessor::AudioPluginAudioProcessor()
@@ -98,7 +98,7 @@ bool AudioPluginAudioProcessor::isBusesLayoutSupported(
       layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
     return false;
 
-    // This checks if the input layout matches the output layout
+  // This checks if the input layout matches the output layout
 #if !JucePlugin_IsSynth
   if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
     return false;
