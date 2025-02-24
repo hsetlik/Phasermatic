@@ -17,6 +17,7 @@ juce_add_plugin(${PROJECT_NAME}
     PLUGIN_CODE EXPL # change this
     FORMATS Standalone VST3  AU # may change this
     PRODUCT_NAME "Phasermatic" # change this
+    COPY_PLUGIN_AFTER_BUILD TRUE 
 )
 
 # Sets the source files of the plugin project.
@@ -25,9 +26,11 @@ target_sources(${PROJECT_NAME}
         source/FFT.cpp
         source/PluginEditor.cpp
         source/PluginProcessor.cpp
+        source/PhaseProcessor.cpp
         source/Common.cpp
         ${INCLUDE_DIR}/PluginEditor.h
         ${INCLUDE_DIR}/PluginProcessor.h
+        ${INCLUDE_DIR}/PhaseProcessor.h
         ${INCLUDE_DIR}/FFT.h
         ${INCLUDE_DIR}/Common.h
 )

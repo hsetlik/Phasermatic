@@ -133,8 +133,9 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   // interleaved by keeping the same state.
   for (int channel = 0; channel < totalNumInputChannels; ++channel) {
     auto* channelData = buffer.getWritePointer(channel);
-    juce::ignoreUnused(channelData);
-    // ..do something to the data...
+    for (int s = 0; s < buffer.getNumSamples(); s++) {
+      channelData[s] = fft.processSample(channelData[s]);
+    }
   }
 }
 

@@ -2,8 +2,8 @@
 
 #include "Common.h"
 #include <juce_dsp/juce_dsp.h>
+#include "PhaseProcessor.h"
 
-#define FFT_ORDER 10
 typedef std::unique_ptr<juce::dsp::FFT> fft_core_t;
 typedef juce::dsp::WindowingFunction<float> window_func_t;
 
@@ -31,6 +31,7 @@ private:
 
   // helpers
   void inputFull();
+  void processFreqDomain();
 
 public:
   FFTProcessor();

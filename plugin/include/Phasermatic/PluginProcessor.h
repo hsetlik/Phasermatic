@@ -2,6 +2,7 @@
 
 #include <juce_audio_processors/juce_audio_processors.h>
 #include "Common.h"
+#include "FFT.h"
 
 namespace audio_plugin {
 class AudioPluginAudioProcessor : public juce::AudioProcessor {
@@ -37,6 +38,7 @@ public:
   void setStateInformation(const void* data, int sizeInBytes) override;
 
 private:
+  FFTProcessor fft;
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };
 }  // namespace audio_plugin
