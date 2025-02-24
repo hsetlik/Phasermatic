@@ -17,6 +17,7 @@ private:
   static constexpr int hopSize = fftSize / overlap;  // 256 samples
   // Gain correction for using Hann window with 75% overlap.
   static constexpr float windowCorrection = 2.0f / 3.0f;
+  PhaseProcessor* phaseProc;
   fft_core_t core;
   window_func_t window;
   // double buffering and FIFO stuff
@@ -34,7 +35,7 @@ private:
   void processFreqDomain();
 
 public:
-  FFTProcessor();
+  FFTProcessor(PhaseProcessor* phaser);
   // do the processing one sample at a time
   float processSample(float input);
 };

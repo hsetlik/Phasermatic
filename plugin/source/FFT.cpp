@@ -1,7 +1,8 @@
 #include "Phasermatic/FFT.h"
 
-FFTProcessor::FFTProcessor()
-    : core(std::make_unique<juce::dsp::FFT>(FFT_ORDER)),
+FFTProcessor::FFTProcessor(PhaseProcessor* phaser)
+    : phaseProc(phaser),
+      core(std::make_unique<juce::dsp::FFT>(FFT_ORDER)),
       window(fftSize + 1,
              juce::dsp::WindowingFunction<float>::WindowingMethod::hann,
              false) {
@@ -58,7 +59,7 @@ void FFTProcessor::processFreqDomain() {
   for (int i = 0; i < numBins; i++) {
     magnitude = std::abs(bins[i]);
     phase = std::arg(bins[i]);
-    // TODO: phase processing call goes here
+    phaseProc->processBin(&magnitude, &phase, i);
     bins[i] = std::polar(magnitude, phase);
   }
 }

@@ -38,6 +38,7 @@ public:
   void setStateInformation(const void* data, int sizeInBytes) override;
 
 private:
+  PhaseProcessor phaser;
   FFTProcessor fft;
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };

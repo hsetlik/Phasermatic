@@ -10,11 +10,19 @@
 
 #define FFT_ORDER 10
 
+enum PhaserType {
+  RandomOffsets,
+};
+
 class PhaseProcessor {
 private:
   static constexpr int fftSize = 1 << FFT_ORDER;   // 1024 samples
   static constexpr int numBins = fftSize / 2 + 1;  // 513 bins
+  // set of random bin values to use
+  float randPhases1[numBins];
+
 public:
   PhaseProcessor();
   void processBin(float* magnitude, float* phase, int bin);
+  //
 };

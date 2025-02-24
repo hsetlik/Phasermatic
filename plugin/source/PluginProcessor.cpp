@@ -11,7 +11,8 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
 #endif
               .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
-      ) {
+              ),
+      fft(&phaser) {
 }
 
 AudioPluginAudioProcessor::~AudioPluginAudioProcessor() {}
