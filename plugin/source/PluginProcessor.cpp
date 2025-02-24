@@ -74,9 +74,9 @@ void AudioPluginAudioProcessor::changeProgramName(int index,
 
 void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
                                               int samplesPerBlock) {
-  // Use this method as the place to do any pre-playback
+  SampleRate::set(sampleRate);
   // initialisation that you need..
-  juce::ignoreUnused(sampleRate, samplesPerBlock);
+  juce::ignoreUnused(samplesPerBlock);
 }
 
 void AudioPluginAudioProcessor::releaseResources() {

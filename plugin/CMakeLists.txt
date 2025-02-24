@@ -22,10 +22,14 @@ juce_add_plugin(${PROJECT_NAME}
 # Sets the source files of the plugin project.
 target_sources(${PROJECT_NAME}
     PRIVATE
+        source/FFT.cpp
         source/PluginEditor.cpp
         source/PluginProcessor.cpp
+        source/Common.cpp
         ${INCLUDE_DIR}/PluginEditor.h
         ${INCLUDE_DIR}/PluginProcessor.h
+        ${INCLUDE_DIR}/FFT.h
+        ${INCLUDE_DIR}/Common.h
 )
 
 # Sets the include directories of the plugin project.
@@ -43,6 +47,7 @@ target_link_libraries(${PROJECT_NAME}
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags
+        juce::juce_dsp
 )
 
 # These definitions are recommended by JUCE.
