@@ -12,8 +12,6 @@ typedef juce::dsp::WindowingFunction<float> window_func_t;
 
 class FFTProcessor {
 private:
-  static constexpr int fftSize = 1 << FFT_ORDER;   // 1024 samples
-  static constexpr int numBins = fftSize / 2 + 1;  // 513 bins
   static constexpr int overlap = 4;
   static constexpr int hopSize = fftSize / overlap;  // 256 samples
   // Gain correction for using Hann window with 75% overlap.

@@ -10,18 +10,26 @@ void SineLFO::advance(int numSamples) {
 
 //=====================================================================================
 
-PhaseProcessor::PhaseProcessor() {
-  juce::Random rand(128032);
+RandomOffsetsAlgo::RandomOffsetsAlgo() {
+  juce::Random rand(2084);
   for (int i = 0; i < numBins; i++) {
-    randPhases1[i] = rand.nextFloat() * juce::MathConstants<float>::twoPi;
+    offsets[i] = rand.nextFloat() * twoPi_f;
   }
 }
+
+void RandomOffsetsAlgo::processBin(float*, float* phase, int bin, float depth) {
+  *phase = flerp(*phase, *phase + offsets[bin], depth);
+}
+
+//=====================================================================================
+
+PhaseProcessor::PhaseProcessor() {}
 
 void PhaseProcessor::processBin(float* mag, float* phase, int bin) {
   *phase += randPhases1[bin];
 }
 
-void PhaseProcessor::processSpectrum(std::complex<float>* bins) {
+void PhaseProcessor::processSpectrum(std::complex<float>* bins, int channel) {
   float magnitude, phase;
   for (int i = 0; i < numBins; i++) {
     magnitude = std::abs(bins[i]);

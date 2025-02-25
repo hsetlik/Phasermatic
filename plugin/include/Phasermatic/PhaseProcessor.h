@@ -10,8 +10,8 @@
 #pragma once
 
 #define FFT_ORDER 10
-
-enum PhaserType { RandomOffsets, LFOFlip };
+constexpr int fftSize = 1 << FFT_ORDER;   // 1024 samples
+constexpr int numBins = fftSize / 2 + 1;  // 513 bins
 
 // a basic sinewave LFO
 class SineLFO {
@@ -27,10 +27,35 @@ public:
   float getLevel() const { return currentOutput; }
 };
 
+enum PhaserType { RandomOffsets, LFOFlip };
+
+// Each 'PhaserType' above has a corresponding PhaserAlgo to do the work
+class PhaserAlgo {
+public:
+  PhaserAlgo() = default;
+  virtual ~PhaserAlgo() = default;
+  // this gets overridden by each child class
+  virtual void processBin(float* magnitude,
+                          float* phase,
+                          int bin,
+                          float depth) = 0;
+};
+
+class RandomOffsetsAlgo : public PhaserAlgo {
+private:
+  float offsets[numBins];
+
+public:
+  RandomOffsetsAlgo();
+  void processBin(float* magnitude,
+                  float* phase,
+                  int bin,
+                  float depth) override;
+};
+
+//==============================================================
 class PhaseProcessor {
 private:
-  static constexpr int fftSize = 1 << FFT_ORDER;   // 1024 samples
-  static constexpr int numBins = fftSize / 2 + 1;  // 513 bins
   // set of random bin values to use
   float randPhases1[numBins];
 
@@ -48,7 +73,7 @@ public:
   // process one bin at a time
   void processBin(float* magnitude, float* phase, int bin);
   // process one fft hop worth of data
-  void processSpectrum(std::complex<float>* buf);
+  void processSpectrum(std::complex<float>* buf, int channel = 0);
   // advance the LFOs and such
   void advanceSamples(int samples);
 };

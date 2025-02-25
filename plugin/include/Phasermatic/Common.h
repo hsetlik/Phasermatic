@@ -18,3 +18,7 @@ namespace SampleRate {
 void set(double rate);
 double get();
 }  // namespace SampleRate
+
+inline float flerp(float a, float b, float t) {
+  return a + ((b - a) * t);
+}
