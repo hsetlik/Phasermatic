@@ -1,5 +1,6 @@
 #include "Phasermatic/PluginProcessor.h"
 #include "Phasermatic/PluginEditor.h"
+#include "Phasermatic/ParameterLayout.h"
 
 namespace audio_plugin {
 AudioPluginAudioProcessor::AudioPluginAudioProcessor()
@@ -12,6 +13,7 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
               .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
               ),
+      tree(*this, nullptr, "PhasermaticState", Param::getLayout()),
       fft(&phaser) {
 }
 

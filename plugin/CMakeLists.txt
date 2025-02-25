@@ -28,11 +28,13 @@ target_sources(${PROJECT_NAME}
         source/PluginProcessor.cpp
         source/PhaseProcessor.cpp
         source/Common.cpp
+        source/ParameterLayout.cpp
         ${INCLUDE_DIR}/PluginEditor.h
         ${INCLUDE_DIR}/PluginProcessor.h
         ${INCLUDE_DIR}/PhaseProcessor.h
         ${INCLUDE_DIR}/FFT.h
         ${INCLUDE_DIR}/Common.h
+        ${INCLUDE_DIR}/ParameterLayout.h
 )
 
 # Sets the include directories of the plugin project.
