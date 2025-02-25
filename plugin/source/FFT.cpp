@@ -26,9 +26,11 @@ float FFTProcessor::processSample(float input) {
 void FFTProcessor::inputFull() {
   // 1. copy the relevant chunk of the input buffer into the real part of our
   // FFT buffer
-  std::memcpy(fftBuf, inPtr + samplePos, (fftSize - samplePos) * sizeof(float));
+  std::memcpy(fftBuf, inPtr + samplePos,
+              (size_t)(fftSize - samplePos) * sizeof(float));
   if (samplePos > 0) {
-    std::memcpy(fftBuf + fftSize - samplePos, inPtr, samplePos * sizeof(float));
+    std::memcpy(fftBuf + fftSize - samplePos, inPtr,
+                (size_t)samplePos * sizeof(float));
   }
 
   // 2. apply the windowing function here

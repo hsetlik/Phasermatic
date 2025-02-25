@@ -3,6 +3,7 @@
 #include "Common.h"
 #include <juce_dsp/juce_dsp.h>
 #include "PhaseProcessor.h"
+#include "juce_core/system/juce_PlatformDefs.h"
 
 typedef std::unique_ptr<juce::dsp::FFT> fft_core_t;
 typedef juce::dsp::WindowingFunction<float> window_func_t;
@@ -38,4 +39,5 @@ public:
   FFTProcessor(PhaseProcessor* phaser);
   // do the processing one sample at a time
   float processSample(float input);
+  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FFTProcessor)
 };

@@ -11,6 +11,8 @@ typedef std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>
 typedef std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>
     combo_attach_ptr;
 typedef juce::NormalisableRange<float> frange_t;
+
+constexpr float twoPi_f = juce::MathConstants<float>::twoPi;
 // maybe we'll avoid writing 5 zillion 'prepare()' functions this way
 namespace SampleRate {
 void set(double rate);
