@@ -1,4 +1,5 @@
 #include "Phasermatic/PluginProcessor.h"
+#include "Phasermatic/FFT.h"
 #include "Phasermatic/PluginEditor.h"
 #include "Phasermatic/ParameterLayout.h"
 
@@ -13,8 +14,11 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
               .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
               ),
-      tree(*this, nullptr, "PhasermaticState", Param::getLayout()),
-      fft(&phaser) {
+      tree(*this, nullptr, "PhasermaticState", Param::getLayout()) {
+  // initialize a separate FFT processor for each channel
+  for (int c = 0; c < getTotalNumInputChannels(); ++c) {
+    ffts.add(new FFTProcessor(&phaser));
+  }
 }
 
 AudioPluginAudioProcessor::~AudioPluginAudioProcessor() {}
@@ -137,7 +141,7 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
   for (int channel = 0; channel < totalNumInputChannels; ++channel) {
     auto* channelData = buffer.getWritePointer(channel);
     for (int s = 0; s < buffer.getNumSamples(); s++) {
-      channelData[s] = fft.processSample(channelData[s]);
+      channelData[s] = ffts[channel]->processSample(channelData[s]);
     }
   }
 }

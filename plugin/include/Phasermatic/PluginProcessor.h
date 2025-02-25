@@ -41,7 +41,7 @@ public:
 
 private:
   PhaseProcessor phaser;
-  FFTProcessor fft;
+  juce::OwnedArray<FFTProcessor> ffts;
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };
 }  // namespace audio_plugin

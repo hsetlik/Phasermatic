@@ -10,9 +10,7 @@
 
 #define FFT_ORDER 10
 
-enum PhaserType {
-  RandomOffsets,
-};
+enum PhaserType { RandomOffsets, LFOFlip };
 
 class PhaseProcessor {
 private:
