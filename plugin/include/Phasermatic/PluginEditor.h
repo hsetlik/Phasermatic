@@ -16,7 +16,7 @@ public:
   void resized() override;
 
   void timerCallback() override {
-    graph.refresh(processorRef.getGraphPointer());
+    // graph.refresh(processorRef.getGraphPointer());
   }
 
 private:

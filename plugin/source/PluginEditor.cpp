@@ -19,8 +19,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
   addAndMakeVisible(depthSlider);
   addAndMakeVisible(speedSlider);
   addAndMakeVisible(typeBox);
-  addAndMakeVisible(graph);
-  // initialize the APVTS attachments
+  // addAndMakeVisible(graph);
+  //  initialize the APVTS attachments
   depthAttach.reset(
       new apvts::SliderAttachment(p.tree, ID::depth.toString(), depthSlider));
   speedAttach.reset(new apvts::SliderAttachment(p.tree, ID::lfoSpeed.toString(),
@@ -42,11 +42,12 @@ void AudioPluginAudioProcessorEditor::resized() {
   const float typeHeight = 45.0f;
   auto typeBounds = fBounds.removeFromTop(typeHeight);
   typeBox.setBounds(typeBounds.toNearestInt());
-  auto gBounds = fBounds.removeFromTop(0.75f * fBounds.getHeight());
-  graph.setBounds(gBounds.toNearestInt());
-  auto lBounds = fBounds.removeFromLeft(fBounds.getHeight());
+  // auto gBounds = fBounds.removeFromTop(0.75f * fBounds.getHeight());
+  // graph.setBounds(gBounds.toNearestInt());
+  auto row1 = fBounds.removeFromTop(90.0f);
+  auto lBounds = row1.removeFromLeft(row1.getHeight());
   speedSlider.setBounds(lBounds.toNearestInt());
-  lBounds = fBounds.removeFromLeft(fBounds.getHeight());
+  lBounds = row1.removeFromLeft(row1.getHeight());
   depthSlider.setBounds(lBounds.toNearestInt());
 }
 }  // namespace audio_plugin

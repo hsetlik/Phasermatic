@@ -9,10 +9,6 @@
  */
 #pragma once
 
-#define FFT_ORDER 10
-constexpr int fftSize = 1 << FFT_ORDER;   // 1024 samples
-constexpr int numBins = fftSize / 2 + 1;  // 513 bins
-
 // a basic sinewave LFO
 class SineLFO {
 private:
@@ -76,6 +72,7 @@ public:
                   int bin,
                   float depth) override;
 };
+//==============================================================
 
 //==============================================================
 class PhaseProcessor {

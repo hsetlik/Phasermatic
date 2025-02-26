@@ -29,10 +29,12 @@ target_sources(${PROJECT_NAME}
         source/PhaseProcessor.cpp
         source/Common.cpp
         source/ParameterLayout.cpp
+        source/SpectrumAnalysis.cpp
         ${INCLUDE_DIR}/PluginEditor.h
         ${INCLUDE_DIR}/PluginProcessor.h
         ${INCLUDE_DIR}/PhaseProcessor.h
         ${INCLUDE_DIR}/FFT.h
+        ${INCLUDE_DIR}/SpectrumAnalysis.h
         ${INCLUDE_DIR}/Common.h
         ${INCLUDE_DIR}/ParameterLayout.h
         ${INCLUDE_DIR}/Identifiers.h
