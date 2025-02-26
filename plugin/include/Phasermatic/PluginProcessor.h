@@ -38,10 +38,17 @@ public:
   void setStateInformation(const void* data, int sizeInBytes) override;
 
   apvts tree;
+  // access to the FFT data pointer for the graph
+  float* getGraphPointer() {
+    graphUpdateRequested = true;
+    return graphData;
+  }
 
 private:
   PhaseProcessor phaser;
   juce::OwnedArray<FFTProcessor> ffts;
+  bool graphUpdateRequested = false;
+  float graphData[fftSize * 2];
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };
 }  // namespace audio_plugin

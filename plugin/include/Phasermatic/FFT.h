@@ -37,5 +37,7 @@ public:
   FFTProcessor(PhaseProcessor* phaser);
   // do the processing one sample at a time
   float processSample(float input);
+  // get a pointer to the frequency domain FFT data
+  float* getFFTPointer() { return fftBuf; }
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(FFTProcessor)
 };
