@@ -4,6 +4,7 @@ juce::StringArray getEffectTypeNames() {
   juce::StringArray arr;
   arr.add("Random Offsets");
   arr.add("Phase Flipper");
+  arr.add("Modulate Odd");
   return arr;
 }
 

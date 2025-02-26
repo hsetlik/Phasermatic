@@ -65,6 +65,18 @@ public:
                   float depth) override;
 };
 
+class ModulateOddAlgo : public PhaserAlgo {
+private:
+  SineLFO* const lfo;
+
+public:
+  ModulateOddAlgo(SineLFO* l);
+  void processBin(float* magnitude,
+                  float* phase,
+                  int bin,
+                  float depth) override;
+};
+
 //==============================================================
 class PhaseProcessor {
 private:
@@ -84,8 +96,6 @@ public:
   PhaseProcessor();
   // call this at the beginning of processBlock()
   void updateParams(apvts& tree);
-  // process one bin at a time
-  void processBin(float* magnitude, float* phase, int bin);
   // process one fft hop worth of data
   void processSpectrum(std::complex<float>* buf, int channel = 0);
   // advance the LFOs and such

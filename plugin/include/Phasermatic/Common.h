@@ -13,7 +13,7 @@ typedef std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>
     combo_attach_ptr;
 
 // Keep the master list of algorithm types here
-enum PhaserType { RandomOffsets, LFOFlip };
+enum PhaserType { RandomOffsets, LFOFlip, ModulateOdds };
 // return a list of the user-facing names for the above
 juce::StringArray getEffectTypeNames();
 

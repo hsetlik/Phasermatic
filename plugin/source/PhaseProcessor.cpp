@@ -34,16 +34,29 @@ void LFOFlipAlgo::processBin(float* magnitude,
   *phase = flerp(*phase, *phase * -1.0f, lfo->getLevel() * depth);
 }
 
+//----------------------------------------------------------------
+
+ModulateOddAlgo::ModulateOddAlgo(SineLFO* l) : lfo(l) {}
+
+void ModulateOddAlgo::processBin(float* magnitude,
+                                 float* phase,
+                                 int bin,
+                                 float depth) {
+  // attenuate odd number frequency bins based on the LFO
+  if (bin % 2) {
+    float mod = depth * lfo->getLevel();
+    *magnitude = (*magnitude * mod);
+    *phase = (*phase * mod);
+  }
+}
+
 //=====================================================================================
 
 PhaseProcessor::PhaseProcessor() {
   // initialize each algorithm in the OwnedArray
   algos.add(new RandomOffsetsAlgo());
   algos.add(new LFOFlipAlgo(&lfo));
-}
-
-void PhaseProcessor::processBin(float* mag, float* phase, int bin) {
-  *phase += randPhases1[bin];
+  algos.add(new ModulateOddAlgo(&lfo));
 }
 
 void PhaseProcessor::processSpectrum(std::complex<float>* bins, int channel) {
