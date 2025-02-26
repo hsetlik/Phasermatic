@@ -35,6 +35,7 @@ target_sources(${PROJECT_NAME}
         ${INCLUDE_DIR}/FFT.h
         ${INCLUDE_DIR}/Common.h
         ${INCLUDE_DIR}/ParameterLayout.h
+        ${INCLUDE_DIR}/Identifiers.h
 )
 
 # Sets the include directories of the plugin project.

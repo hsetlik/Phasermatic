@@ -1,4 +1,5 @@
 #include "Phasermatic/PluginEditor.h"
+#include "Phasermatic/Identifiers.h"
 #include "Phasermatic/PluginProcessor.h"
 #include "Phasermatic/ParameterLayout.h"
 
@@ -17,11 +18,12 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
   addAndMakeVisible(speedSlider);
   addAndMakeVisible(typeBox);
   // initialize the APVTS attachments
-  depthAttach.reset(new apvts::SliderAttachment(p.tree, "depth", depthSlider));
-  speedAttach.reset(
-      new apvts::SliderAttachment(p.tree, "lfoSpeed", speedSlider));
-  typeAttach.reset(
-      new apvts::ComboBoxAttachment(p.tree, "phasingType", typeBox));
+  depthAttach.reset(
+      new apvts::SliderAttachment(p.tree, ID::depth.toString(), depthSlider));
+  speedAttach.reset(new apvts::SliderAttachment(p.tree, ID::lfoSpeed.toString(),
+                                                speedSlider));
+  typeAttach.reset(new apvts::ComboBoxAttachment(
+      p.tree, ID::phasingType.toString(), typeBox));
   setSize(600, 400);
 }
 
