@@ -27,7 +27,7 @@ public:
   float getLevel() const { return currentOutput; }
 };
 
-enum PhaserType { RandomOffsets, LFOFlip };
+//========================================================================
 
 // Each 'PhaserType' above has a corresponding PhaserAlgo to do the work
 class PhaserAlgo {
@@ -53,6 +53,18 @@ public:
                   float depth) override;
 };
 
+class LFOFlipAlgo : public PhaserAlgo {
+private:
+  SineLFO* const lfo;
+
+public:
+  LFOFlipAlgo(SineLFO* l);
+  void processBin(float* magnitude,
+                  float* phase,
+                  int bin,
+                  float depth) override;
+};
+
 //==============================================================
 class PhaseProcessor {
 private:
@@ -60,11 +72,13 @@ private:
   float randPhases1[numBins];
 
   // we'll update these values from the GUI once per audio buffer
-  PhaserType currentType;
+  int currentType;
   float currentSpeed;
   float currentDepth;
 
   SineLFO lfo;
+
+  juce::OwnedArray<PhaserAlgo> algos;
 
 public:
   PhaseProcessor();

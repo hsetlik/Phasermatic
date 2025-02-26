@@ -57,11 +57,5 @@ void FFTProcessor::processFreqDomain() {
   // the FFT buffer is interleaved real/imaginary
   // so we can easily cast it to std::complex;
   auto* bins = reinterpret_cast<std::complex<float>*>(fftBuf);
-  float magnitude, phase;
-  for (int i = 0; i < numBins; i++) {
-    magnitude = std::abs(bins[i]);
-    phase = std::arg(bins[i]);
-    phaseProc->processBin(&magnitude, &phase, i);
-    bins[i] = std::polar(magnitude, phase);
-  }
+  phaseProc->processSpectrum(bins);
 }

@@ -12,6 +12,11 @@ typedef std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>
 typedef std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>
     combo_attach_ptr;
 
+// Keep the master list of algorithm types here
+enum PhaserType { RandomOffsets, LFOFlip };
+// return a list of the user-facing names for the above
+juce::StringArray getEffectTypeNames();
+
 constexpr float twoPi_f = juce::MathConstants<float>::twoPi;
 // maybe we'll avoid writing 5 zillion 'prepare()' functions this way
 namespace SampleRate {

@@ -1,4 +1,5 @@
 #include "Phasermatic/ParameterLayout.h"
+#include "Phasermatic/Common.h"
 #include "Phasermatic/Identifiers.h"
 #include "juce_audio_processors/juce_audio_processors.h"
 
@@ -14,11 +15,6 @@ frange_t depthRange() {
   return range;
 }
 
-juce::StringArray phasingTypes() {
-  juce::StringArray arr;
-  arr.add("RandomOffset");
-  return arr;
-}
 apvts::ParameterLayout getLayout() {
   apvts::ParameterLayout layout;
   layout.add(std::make_unique<juce::AudioParameterFloat>(
@@ -26,7 +22,7 @@ apvts::ParameterLayout getLayout() {
   layout.add(std::make_unique<juce::AudioParameterFloat>(
       ID::depth.toString(), "Mod. Depth", depthRange(), 0.5f));
   layout.add(std::make_unique<juce::AudioParameterChoice>(
-      ID::phasingType.toString(), "Effect Type", phasingTypes(), 0));
+      ID::phasingType.toString(), "Effect Type", getEffectTypeNames(), 0));
   return layout;
 }
 }  // namespace Param

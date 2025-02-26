@@ -1,4 +1,5 @@
 #include "Phasermatic/PluginEditor.h"
+#include "Phasermatic/Common.h"
 #include "Phasermatic/Identifiers.h"
 #include "Phasermatic/PluginProcessor.h"
 #include "Phasermatic/ParameterLayout.h"
@@ -12,7 +13,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
   depthSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 45, 12);
   speedSlider.setSliderStyle(juce::Slider::Rotary);
   speedSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 45, 12);
-  typeBox.addItemList(Param::phasingTypes(), 1);
+  typeBox.addItemList(getEffectTypeNames(), 1);
   typeBox.setSelectedItemIndex(1);
   addAndMakeVisible(depthSlider);
   addAndMakeVisible(speedSlider);
