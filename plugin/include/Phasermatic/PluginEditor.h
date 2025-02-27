@@ -32,7 +32,7 @@ private:
   combo_attach_ptr typeAttach;
 
 public:
-  SevenBandGraph graph;
+  MultibandGraph graph;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessorEditor)
 };

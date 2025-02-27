@@ -1,4 +1,5 @@
 #include "Phasermatic/GUI/SpectrumGraph.h"
+#include <cmath>
 #include "Phasermatic/Common.h"
 #include "Phasermatic/Identifiers.h"
 #include "Phasermatic/PhaseProcessor.h"
@@ -119,5 +120,68 @@ void SevenBandGraph::updateImageData(std::complex<float>* ptr) {
     juce::Rectangle<int> rect(currentX + 3, barY, barWidth - 3, barHeight);
     img.clear(rect, magColor);
     currentX += barWidth;
+  }
+}
+//
+
+//=====================================================================================
+MultibandGraph::MultibandGraph()
+    : img(juce::Image::RGB, imgWidth, imgHeight, true) {}
+
+void MultibandGraph::refresh(float* buf) {
+  auto* complex = reinterpret_cast<std::complex<float>*>(buf);
+  updateImageData(complex);
+  repaint();
+}
+
+void MultibandGraph::paint(juce::Graphics& g) {
+  g.drawImageAt(img, 0, 0);
+}
+
+// some helpers for figuring out where frequency bands should be
+static std::vector<freq_band_t> getExponentialFreqBands(int numBands) {
+  constexpr float fMin = 50.0f;
+  constexpr float fMax = 15000.0f;
+  /*  Just a little algebra
+   *  max = min * x^numBands
+   *  max / min = x^numBands
+   *  x = (max / min)^(1 / numBands)
+   * */
+  const float root = std::powf(fMax / fMin, 1.0f / (float)numBands);
+  std::vector<freq_band_t> bands;
+  for (int b = 0; b < numBands; b++) {
+    const float start = fMin * std::powf(root, (float)b);
+    const float next = fMin * std::powf(root, (float)b + 1.0f);
+    bands.push_back({start, next - 10.0f});
+  }
+  return bands;
+}
+
+// TODO maybe have this be decibel-based in the future
+static int barHeightforMagnitude(float mag, int maxHeight) {
+  return (int)(mag * (float)maxHeight);
+}
+
+void MultibandGraph::updateImageData(std::complex<float>* fft) {
+  static const std::vector<freq_band_t> ranges =
+      getExponentialFreqBands(GRAPH_BANDS);
+  // 1. find the magnitude for each band
+  for (size_t b = 0; b < GRAPH_BANDS; b++) {
+    band[b] =
+        FFT::meanMagnitudeInBand(ranges[b].getStart(), ranges[b].getEnd(), fft);
+  }
+  // 2. do some geometry
+  constexpr int xStart = 5;
+  constexpr int xEnd = imgWidth - xStart;
+  constexpr int barWidth = (xEnd - xStart) / GRAPH_BANDS;
+  // 3. clear the image and draw the graph
+  static juce::Rectangle<int> imgBounds = getLocalBounds();
+  img.clear(imgBounds);
+  static const juce::Colour magColor(218, 165, 32);
+  for (int b = 0; b < GRAPH_BANDS; b++) {
+    const int x = xStart + (barWidth * b);
+    const int height = barHeightforMagnitude(band[b], imgHeight);
+    juce::Rectangle<int> bar = {x, imgHeight - height, barWidth, height};
+    img.clear(bar, magColor);
   }
 }

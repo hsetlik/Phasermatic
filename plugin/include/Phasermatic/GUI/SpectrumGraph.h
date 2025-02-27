@@ -37,7 +37,6 @@ private:
 
 class SevenBandGraph : public juce::Component {
 private:
-  bool wantsUpdate = false;
   static constexpr int imgHeight = 265;
   static constexpr int imgWidth = 600;
   std::complex<float> bins[numBins];
@@ -46,6 +45,27 @@ private:
 
 public:
   SevenBandGraph();
+  void refresh(float* data);
+  void paint(juce::Graphics& g) override;
+
+private:
+  void updateImageData(std::complex<float>* fft);
+};
+
+//===========================================================
+
+#define GRAPH_BANDS 10
+
+class MultibandGraph : public juce::Component {
+private:
+  static constexpr int imgHeight = 265;
+  static constexpr int imgWidth = 600;
+  std::complex<float> bins[numBins];
+  float band[GRAPH_BANDS];
+  juce::Image img;
+
+public:
+  MultibandGraph();
   void refresh(float* data);
   void paint(juce::Graphics& g) override;
 

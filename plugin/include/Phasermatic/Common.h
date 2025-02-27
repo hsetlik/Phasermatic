@@ -13,6 +13,8 @@ typedef std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>
 typedef std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>
     combo_attach_ptr;
 
+typedef juce::Range<float> freq_band_t;
+
 // Keep the master list of algorithm types here
 enum PhaserType { RandomOffsets, LFOFlip, ModulateOdds };
 // return a list of the user-facing names for the above
