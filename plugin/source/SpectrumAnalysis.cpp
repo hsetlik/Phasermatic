@@ -30,14 +30,14 @@ float getMagnitudeAtHz(float hz, std::complex<float>* data) {
   size_t right = (size_t)numBins - 1;
   while (left <= right) {
     size_t mid = left + ((right - left) / 2);
-    if (binFreqs()[mid] <= hz && hz < binFreqs()[mid + 1]) {
-      auto& low = binFreqs()[mid];
-      auto& high = binFreqs()[mid + 1];
+    if (hzForBin(mid) <= hz && hz < hzForBin(mid + 1)) {
+      const float low = hzForBin(mid);
+      const float high = hzForBin(mid + 1);
       const float t = (hz - low) / (high - low);
       const float magLow = std::abs(data[mid]);
       const float magHigh = std::abs(data[mid + 1]);
       return flerp(magLow, magHigh, t);
-    } else if (binFreqs()[mid] < hz) {
+    } else if (hzForBin(mid) < hz) {
       left = mid + 1;
     } else {
       right = mid - 1;
@@ -56,6 +56,7 @@ float meanMagnitudeInBand(float startHz,
   while (bin <= endBin) {
     sum += std::abs(data[bin]);
     denom += 1.0f;
+    ++bin;
   }
   return sum / denom;
 }

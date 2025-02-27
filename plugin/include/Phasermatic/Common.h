@@ -38,11 +38,8 @@ constexpr int fftSize = 1 << FFT_ORDER;   // 1024 samples
 constexpr int numBins = fftSize / 2 + 1;  // 513 bins
 namespace FFT {
 // return the center frequency in hz for a given bin index
-inline float getHzForBin(int index) {
-  return (float)index * (float)SampleRate::get() / (float)fftSize;
-}
+float hzForBin(size_t index);
 
-const std::vector<float>& binFreqs();
 // return the FFT bin index closest to the given frequency
 int getBinForHz(float hz);
 

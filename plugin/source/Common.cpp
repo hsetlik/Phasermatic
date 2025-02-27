@@ -30,17 +30,20 @@ double SampleRate::get() {
 //
 namespace FFT {
 
+static float calculateBinFreq(size_t bin) {
+  return (float)bin * (float)SampleRate::get() / (float)fftSize;
+}
 static std::vector<float> getBinFrequecies() {
   std::vector<float> vec;
-  for (int i = 0; i < numBins; ++i) {
-    vec.push_back(getHzForBin(i));
+  for (size_t i = 0; i < numBins; ++i) {
+    vec.push_back(calculateBinFreq(i));
   }
   return vec;
 }
 
-const std::vector<float>& binFreqs() {
+float hzForBin(size_t bin) {
   static const std::vector<float> vec = getBinFrequecies();
-  return vec;
+  return vec[bin];
 }
 
 int getBinForHz(float hz) {
@@ -49,11 +52,10 @@ int getBinForHz(float hz) {
   size_t right = (size_t)numBins - 1;
   while (left <= right) {
     size_t mid = left + ((right - left) / 2);
-    if (binFreqs()[mid] <= hz && hz < binFreqs()[mid + 1]) {
-      return ((hz - binFreqs()[mid]) > (binFreqs()[mid + 1] - hz))
-                 ? (int)mid + 1
-                 : (int)mid;
-    } else if (binFreqs()[mid] < hz) {
+    if (hzForBin(mid) <= hz && hz < hzForBin(mid + 1)) {
+      return ((hz - hzForBin(mid)) > (hzForBin(mid + 1) - hz)) ? (int)mid + 1
+                                                               : (int)mid;
+    } else if (hzForBin(mid) < hz) {
       left = mid + 1;
     } else {
       right = mid - 1;
