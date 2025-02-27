@@ -42,6 +42,7 @@ inline float getHzForBin(int index) {
   return (float)index * (float)SampleRate::get() / (float)fftSize;
 }
 
+const std::vector<float>& binFreqs();
 // return the FFT bin index closest to the given frequency
 int getBinForHz(float hz);
 

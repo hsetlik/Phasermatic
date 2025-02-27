@@ -21,4 +21,10 @@ std::vector<size_t> getBinsAboveMagnitude(float value,
 // Return all bin indices with a magnitude below the given value
 std::vector<size_t> getBinsBelowMagnitude(float value,
                                           std::complex<float>* data);
+// uses some interpolation to estimate the magnitude at a given gain
+float getMagnitudeAtHz(float hz, std::complex<float>* data);
+// calculates the mean magnitude in between the provided frequencies
+float meanMagnitudeInBand(float startHz,
+                          float endHz,
+                          std::complex<float>* data);
 }  // namespace FFT

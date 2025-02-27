@@ -16,7 +16,7 @@ public:
   void resized() override;
 
   void timerCallback() override {
-    // graph.refresh(processorRef.getGraphPointer());
+    graph.refresh(processorRef.getGraphPointer());
   }
 
 private:
@@ -32,7 +32,7 @@ private:
   combo_attach_ptr typeAttach;
 
 public:
-  FFTGraph graph;
+  SevenBandGraph graph;
 
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessorEditor)
 };

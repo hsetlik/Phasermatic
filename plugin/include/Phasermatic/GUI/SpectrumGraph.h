@@ -3,6 +3,7 @@
 #include "../FFT.h"
 #include "Phasermatic/PhaseProcessor.h"
 #include "juce_graphics/juce_graphics.h"
+#include "../SpectrumAnalysis.h"
 #define GRAPH_REFRESH_HZ 24
 
 class FFTGraph : public juce::Component {
@@ -29,5 +30,25 @@ public:
 
 private:
   // helper for the heavy lifting
+  void updateImageData(std::complex<float>* fft);
+};
+
+//===========================================================
+
+class SevenBandGraph : public juce::Component {
+private:
+  bool wantsUpdate = false;
+  static constexpr int imgHeight = 265;
+  static constexpr int imgWidth = 600;
+  std::complex<float> bins[numBins];
+  float band[7];
+  juce::Image img;
+
+public:
+  SevenBandGraph();
+  void refresh(float* data);
+  void paint(juce::Graphics& g) override;
+
+private:
   void updateImageData(std::complex<float>* fft);
 };

@@ -37,7 +37,11 @@ static std::vector<float> getBinFrequecies() {
   }
   return vec;
 }
-const std::vector<float> binFreqs = getBinFrequecies();
+
+const std::vector<float>& binFreqs() {
+  static const std::vector<float> vec = getBinFrequecies();
+  return vec;
+}
 
 int getBinForHz(float hz) {
   // binary search. sinple
@@ -45,10 +49,11 @@ int getBinForHz(float hz) {
   size_t right = (size_t)numBins - 1;
   while (left <= right) {
     size_t mid = left + ((right - left) / 2);
-    if (binFreqs[mid] <= hz && hz < binFreqs[mid + 1]) {
-      return ((hz - binFreqs[mid]) > (binFreqs[mid + 1] - hz)) ? (int)mid + 1
-                                                               : (int)mid;
-    } else if (binFreqs[mid] < hz) {
+    if (binFreqs()[mid] <= hz && hz < binFreqs()[mid + 1]) {
+      return ((hz - binFreqs()[mid]) > (binFreqs()[mid + 1] - hz))
+                 ? (int)mid + 1
+                 : (int)mid;
+    } else if (binFreqs()[mid] < hz) {
       left = mid + 1;
     } else {
       right = mid - 1;

@@ -1,6 +1,8 @@
 #include "Phasermatic/GUI/SpectrumGraph.h"
 #include "Phasermatic/Common.h"
+#include "Phasermatic/Identifiers.h"
 #include "Phasermatic/PhaseProcessor.h"
+#include "Phasermatic/SpectrumAnalysis.h"
 #include "juce_audio_basics/juce_audio_basics.h"
 #include "juce_graphics/juce_graphics.h"
 
@@ -66,5 +68,56 @@ void FFTGraph::updateImageData(std::complex<float>* fft) {
     img.clear(pRect, phaseColor);
     currentX += binWidth;
     bin++;
+  }
+}
+//=====================================================================================
+SevenBandGraph::SevenBandGraph()
+    : img(juce::Image::RGB, imgWidth, imgHeight, true) {}
+
+void SevenBandGraph::refresh(float* buf) {
+  auto* complex = reinterpret_cast<std::complex<float>*>(buf);
+  updateImageData(complex);
+  repaint();
+}
+
+void SevenBandGraph::paint(juce::Graphics& g) {
+  static juce::Rectangle<float> imgBounds = getLocalBounds().toFloat();
+  g.drawImage(img, imgBounds);
+}
+
+static frange_t getGraphRange() {
+  frange_t range(0.0f, 1.0f);
+  const float center = juce::Decibels::decibelsToGain<float>(-17.0f);
+  range.setSkewForCentre(center);
+  return range;
+}
+
+void SevenBandGraph::updateImageData(std::complex<float>* ptr) {
+  std::memcpy(bins, ptr, sizeof bins);
+  // 1. update the band level values
+  band[0] = FFT::meanMagnitudeInBand(20.0f, 80.0f, bins);
+  band[1] = FFT::meanMagnitudeInBand(80.0f, 140.0f, bins);
+  band[2] = FFT::meanMagnitudeInBand(150.0f, 315.0f, bins);
+  band[3] = FFT::meanMagnitudeInBand(325.0f, 750.0f, bins);
+  band[4] = FFT::meanMagnitudeInBand(765.0f, 2200.0f, bins);
+  band[5] = FFT::meanMagnitudeInBand(2220.0f, 6000.0f, bins);
+  band[6] = FFT::meanMagnitudeInBand(6050.0f, 16000.0f, bins);
+  // 2. put those on a decibel scale
+  static frange_t dbRange = getGraphRange();
+  //  for (int i = 0; i < 7; ++i) {
+  //   band[i] = dbRange.convertFrom0to1(band[i]);
+  //}
+  // 3. draw the image
+  int currentX = 7;
+  constexpr int barWidth = 588 / 7;
+  static juce::Rectangle<int> imgBounds = getLocalBounds();
+  img.clear(imgBounds);
+  static const juce::Colour magColor(218, 165, 32);
+  for (int i = 0; i < 7; ++i) {
+    const int barHeight = (int)(band[i] * (float)imgHeight);
+    const int barY = imgHeight - barHeight;
+    juce::Rectangle<int> rect(currentX + 3, barY, barWidth - 3, barHeight);
+    img.clear(rect, magColor);
+    currentX += barWidth;
   }
 }

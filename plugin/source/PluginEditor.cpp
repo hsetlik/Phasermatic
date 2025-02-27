@@ -19,7 +19,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
   addAndMakeVisible(depthSlider);
   addAndMakeVisible(speedSlider);
   addAndMakeVisible(typeBox);
-  // addAndMakeVisible(graph);
+  addAndMakeVisible(graph);
   //  initialize the APVTS attachments
   depthAttach.reset(
       new apvts::SliderAttachment(p.tree, ID::depth.toString(), depthSlider));
@@ -43,8 +43,8 @@ void AudioPluginAudioProcessorEditor::resized() {
   auto typeBounds = fBounds.removeFromTop(typeHeight);
   typeBox.setBounds(typeBounds.toNearestInt());
   // auto gBounds = fBounds.removeFromTop(0.75f * fBounds.getHeight());
-  // graph.setBounds(gBounds.toNearestInt());
   auto row1 = fBounds.removeFromTop(90.0f);
+  graph.setBounds(fBounds.toNearestInt());
   auto lBounds = row1.removeFromLeft(row1.getHeight());
   speedSlider.setBounds(lBounds.toNearestInt());
   lBounds = row1.removeFromLeft(row1.getHeight());
